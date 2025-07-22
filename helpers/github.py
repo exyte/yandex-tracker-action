@@ -7,7 +7,7 @@ from github.PullRequest import PullRequest
 
 TASK_KEY_PATTERN = re.compile(r"[^[]*\[([^]]*)\]")  # noqa
 TASK_LINK_TITLE_TEMPLATE = (
-    "[[{task_key}] {task_title}](https://tracker.yandex.ru/{task_key})"
+    "- [[{task_key}] {task_title}](https://tracker.yandex.ru/{task_key})"
 )
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ def _prepare_description(
 
         task_links += f"{link}\n\n"
 
-    return f"{task_links}{body or ''}"  # noqa
+    return f"{task_links}\n{body or ''}"  # noqa
 
 
 def get_pr_commits(
