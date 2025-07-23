@@ -145,7 +145,7 @@ def add_pr_link2task(
       Status of comment creation
     """
     text = (
-        '{% note info "GitHub" %}\n\n' f"Для этой задачи был открыт [PR]({pr_link})\n\n" "{% endnote %}"
+        '{% note info "GitHub" %}\n\n' f"A [PR]({pr_link}) has been opened for this task\n\n" "{% endnote %}"
     )
     response = requests.post(
         headers={
@@ -201,7 +201,7 @@ def move_task(
         for a, b in v.items():
             if target_status in a or target_status in b:
                 comment = (
-                    '{% note info "GitHub" %}\n\n' f"Задача была автоматически перенесена в колонку **{b}**\n\n" "{% endnote %}"
+                    '{% note info "GitHub" %}\n\n' f"The task was automatically moved to the **{b}** column\n\n" "{% endnote %}"
                 )
                 cur_response = requests.post(
                     headers={
@@ -223,7 +223,7 @@ def move_task(
                     continue
                 response[k] = cur_response.json()
                 pr.create_issue_comment(
-                    body=f'Задача **{k}** была автоматически перенесена в колонку **{b}**'
+                    body=f'Task **{k}** was automatically moved to the **{b}** column'
                 )
 
     statuses = _format_output(target_status=target_status, statuses=transition_statuses)
