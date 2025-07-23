@@ -15,7 +15,6 @@ logger = logging.getLogger(__name__)
 def _prepare_description(
     *,
     tasks: Dict,
-    pr: PullRequest,
 ) -> Optional[str]:
     """
     Update the existing PR description with links to the task keys.
@@ -25,7 +24,6 @@ def _prepare_description(
     Return:
       Description in string format if exists or None.
     """
-    body = pr.body
     links = [
         TASK_LINK_TITLE_TEMPLATE.format(
             task_key=task_key,
@@ -41,7 +39,7 @@ def _prepare_description(
 
         task_links += f"{link}\n"
 
-    return f"{task_links}\n{body or ''}"  # noqa
+    return f"The following tasks were found in the PR:\n\n{task_links}"  # noqa
 
 
 def get_pr_commits(
@@ -80,7 +78,9 @@ def set_pr_body(
     """
     description = _prepare_description(tasks=tasks, pr=pr)
     if description:
-        pr.edit(body=description)
+        pr.create_issue_comment(
+            body=description
+        )
 
 
 def check_if_pr(*, data: dict[str, str]):
