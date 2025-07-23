@@ -62,7 +62,7 @@ def get_pr_commits(
         if not all_matches:
             continue
 
-        commits.append(all_matches[0])
+        commits.extend(all_matches)
 
     return commits
 
