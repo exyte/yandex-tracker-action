@@ -39,7 +39,7 @@ def _prepare_description(
         if body and link in body:
             continue
 
-        task_links += f"{link}\n\n"
+        task_links += f"{link}\n"
 
     return f"{task_links}\n{body or ''}"  # noqa
 
