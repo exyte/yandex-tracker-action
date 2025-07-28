@@ -6,40 +6,7 @@ from typing import Dict, Optional
 from github.PullRequest import PullRequest
 
 TASK_KEY_PATTERN = re.compile(r"[^[]*\[([^]]*)\]")  # noqa
-TASK_LINK_TITLE_TEMPLATE = (
-    "- [[{task_key}] {task_title}](https://tracker.yandex.ru/{task_key})"
-)
 logger = logging.getLogger(__name__)
-
-
-def _prepare_description(
-    *,
-    tasks: Dict,
-) -> Optional[str]:
-    """
-    Update the existing PR description with links to the task keys.
-    Args:
-      tasks: Dict with Yandex Tracker task number as key and task data as value.
-      pr: GitHub PullRequest object.
-    Return:
-      Description in string format if exists or None.
-    """
-    links = [
-        TASK_LINK_TITLE_TEMPLATE.format(
-            task_key=task_key,
-            task_title=task_data.get("summary", ""),
-        )
-        for task_key, task_data in tasks.items()
-    ]
-
-    task_links = ""
-    for link in links:
-        if body and link in body:
-            continue
-
-        task_links += f"{link}\n"
-
-    return f"The following tasks were found in the PR:\n\n{task_links}"  # noqa
 
 
 def get_pr_commits(
@@ -63,24 +30,6 @@ def get_pr_commits(
         commits.extend(all_matches)
 
     return commits
-
-
-def set_pr_body(
-    *,
-    tasks: Dict,
-    pr: PullRequest,
-) -> None:
-    """
-    Set PR description with a link to tracker task.
-    Args:
-      tasks: Dict with Yandex Tracker task number as key and task data as value.
-      pr: GitHub PullRequest object.
-    """
-    description = _prepare_description(tasks=tasks, pr=pr)
-    if description:
-        pr.create_issue_comment(
-            body=description
-        )
 
 
 def check_if_pr(*, data: dict[str, str]):

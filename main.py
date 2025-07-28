@@ -6,7 +6,7 @@ from typing import Dict
 from environs import Env
 from github import Github
 
-from helpers.github import check_if_pr, get_pr_commits, set_pr_body
+from helpers.github import check_if_pr, get_pr_commits
 
 # conflict with black
 # isort: off
@@ -67,7 +67,6 @@ if __name__ == "__main__":
     else:
         logger.warning("[SKIPPED] No tasks found!")
         sys.exit(0)
-    set_pr_body(tasks=existing_tasks, pr=pr)
 
     if TARGET_STATUS:
         target_status = TARGET_STATUS
