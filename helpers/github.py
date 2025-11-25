@@ -3,9 +3,13 @@ import re
 import sys
 from typing import Dict, Optional
 
+from environs import Env
 from github.PullRequest import PullRequest
 
-TASK_KEY_PATTERN = re.compile(r"[^[]*\[([^]]*)\]")  # noqa
+env = Env()
+
+TASK_QUEUE = env("INPUT_TASK_QUEUE")
+TASK_KEY_PATTERN = re.compile(rf"{re.escape(TASK_QUEUE)}-\d+")  # noqa
 logger = logging.getLogger(__name__)
 
 

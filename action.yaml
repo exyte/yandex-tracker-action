@@ -23,6 +23,9 @@ inputs:
   yandex_org_id:
     required: true
     description: YANDEX organization id for send the request with payload
+  task_queue:
+    required: true
+    description: The task queue
 
 runs:
   using: docker
